@@ -6,7 +6,9 @@ class App extends Component {
   }
 
   render(){
-    return ()
+    return (
+    <p>Hello World</p>
+    );
   }
 }
 
