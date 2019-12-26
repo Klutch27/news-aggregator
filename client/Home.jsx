@@ -18,24 +18,28 @@ class Home extends Component {
 
   async fetchArticles(searchParams){
 
-    const options = {
-      headers: {
-        "X-API-Key": guardianAPIKey
-      }
-    };
-// need to move API to server side to protect it --> let the server handle the requests, and then just give the data back to the front-end
-    let API = "https://content.guardianapis.com/search"
-    let fetchedData;
-
-    if (!arguments[0]){
-      fetchedData = await fetch(API, options);
-    }
-    // else, modify the API based on the search parameters and pass that to fetch!
-
-    const results = await fetchedData.json();
+    // place search paramters in the get request, and pull it from req.params
+    const results = await fetch('http://localhost:3000/articles/guardian')
     console.log('results', results);
-    // add data to cache / state
-    // update state
+
+//     const options = {
+//       headers: {
+//         "X-API-Key": guardianAPIKey
+//       }
+//     };
+// // need to move API to server side to protect it --> let the server handle the requests, and then just give the data back to the front-end
+//     let API = "https://content.guardianapis.com/search"
+//     let fetchedData;
+
+//     if (!arguments[0]){
+//       fetchedData = await fetch(API, options);
+//     }
+//     // else, modify the API based on the search parameters and pass that to fetch!
+
+//     const results = await fetchedData.json();
+//     console.log('results', results);
+//     // add data to cache / state
+//     // update state
 
 
   }
@@ -50,7 +54,9 @@ class Home extends Component {
   componentDidUpdate(prevProps, prevState){}
 
   render(){
-    return null;
+    return(
+      <button onClick={()=>this.fetchArticles()}>GUARDIAN</button>
+    )
   }
 
 }
