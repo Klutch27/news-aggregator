@@ -10,17 +10,31 @@ class Home extends Component {
   constructor(props){
     super(props);
     this.state = {
-      cache: {},
-      currentPage: 1
-    };
+      cache: {
+        guardian: {
+          results: {},
+          pageNum: 1
+        },
+      },
+      }
     this.fetchArticles = this.fetchArticles.bind(this);
   }
 
-  async fetchArticles(searchParams){
+  async fetchArticles(source, searchParams){
+    // need to add search Params to the request parameters (add to query string);
 
+
+    try {
+      console.log('this.state.cache: ', this.state.cache)
+      let queryString = `http://localhost:3000/read/${source}/${searchParams}/${this.state.cache[source].pageNum}`;
+      const fetchedData = await fetch(queryString);
+      const results = await fetchedData.json();
+      console.log('results', results);
+    }
+    catch(err){
+      console.error(err);
+    }
     // place search paramters in the get request, and pull it from req.params
-    const results = await fetch('http://localhost:3000/articles/guardian')
-    console.log('results', results);
 
 //     const options = {
 //       headers: {
@@ -47,7 +61,7 @@ class Home extends Component {
   
   // NOTE: on very first render, render() runs before componentDidMount. Need to handle that initial render for data fetching in component (e.g. return null or something)
   componentDidMount(){
-    this.fetchArticles();
+    
   }
 
   // runs when component updates and compares previous props and prev state to current props and current state
@@ -55,7 +69,7 @@ class Home extends Component {
 
   render(){
     return(
-      <button onClick={()=>this.fetchArticles()}>GUARDIAN</button>
+      <button onClick={()=>this.fetchArticles('guardian', 'debate+immigration')}>GUARDIAN</button>
     )
   }
 

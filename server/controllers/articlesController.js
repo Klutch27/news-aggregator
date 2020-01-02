@@ -8,20 +8,28 @@ articlesController.fetchArticles = async (req, res, next)=>{
   switch(req.params.src){
     case 'guardian':
       // fetch guardian articles and return them
-    try {
-      // need to move API to server side to protect it --> let the server handle the requests, and then just give the data back to the front-end
-          let API = "https://content.guardianapis.com/search?&api-key=bad27263-a370-48ff-b468-ab6c3d9b9406"
+      try {
+
+        const finalSearchTerms = req.params.searchTerms.split('+').join('%20AND')
+        // search?page=1 // ==> the very first parameter is the page #
+            let API = "https://content.guardianapis.com/search?";
+            const apiKey = '&api-key=bad27263-a370-48ff-b468-ab6c3d9b9406';
+            // add any search parameters to query string
+            // then finally add on apiKey;
+            let queryString = API + req.params.page + "q=" + finalSearchTerms + apiKey;
+            const fetchResponse = await fetch(queryString);
+            const results = await fetchResponse.json();
+            console.log('results', results);
+            res.locals.guardianResults = results.response.results;
+            console.log('res.locals.guardianResults', res.locals.guardianResults);
+            next();
           
-          const fetchResponse = await fetch(API)
-          const results = await fetchResponse.json();
-          res.locals.guardianResults = results;
-          next();
-        
-        // default:
-    }
-    catch(err){
-      console.error(err);
-    }
+          // default:
+      }
+      catch(err){
+        console.error(err);
+      }
+      break;
       
   }
 
