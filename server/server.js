@@ -3,6 +3,7 @@ const app = express();
 const PORT = 3000;
 const path = require('path');
 const articleRouter = require('./articleRouter.js');
+require('dotenv').config();
 
 express.json();
 express.urlencoded({extended: true});

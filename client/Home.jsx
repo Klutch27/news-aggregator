@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 // regenerattor is to use ES6 arrow functions
 import "regenerator-runtime/runtime";
-const guardianAPIKey = process.env.GUARDIAN_API_KEY
 
 // NOTE: I'd normally place this in a process.env file and hide it from GitHub.
 // for the purpose of this take home, I'm leaving it here so it's easier to run the file.
